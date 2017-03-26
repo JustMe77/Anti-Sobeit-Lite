@@ -17,14 +17,6 @@ bool:sCheckMade[MAX_PLAYERS];
 
 #define Version "1.0.0"
 
-enum pStuff
-{
-	p_Weapons[13],
-	p_Ammo[13]
-}
-
-static PlayerInfo[MAX_PLAYERS][pStuff];
-
 // Custom Callbacks
 
 forward OnPlayerSobeitDetect(playerid);
@@ -52,12 +44,8 @@ public WeaponCheck(playerid)
 forward SobeitCheck(playerid);
 public SobeitCheck(playerid)
 {
-
-	//Save Stuff
-	for (new i = 0; i <= 12; i++) GetPlayerWeaponData(playerid, i, PlayerInfo[playerid][p_Weapons][i], PlayerInfo[playerid][p_Ammo][i]);
-
-	//Reset Stuff
-	ResetPlayerWeapons(playerid);
+	//Remove Golf Weapon
+	RemovePlayerWeapon(playerid, 2);
 
 	new Float:x, Float:y, Float:z;
 	GetPlayerPos(playerid, x, y, z);
@@ -66,10 +54,6 @@ public SobeitCheck(playerid)
 	sTimer[playerid] = SetTimerEx("WeaponCheck", 1000, false, "i", playerid);
 	DestroyVehicle(sVehicle[playerid]);
 	sCheckMade[playerid] = true;
-
-	//Give Stuff back
-	for(new i=0; i < 13; i++)GivePlayerWeapon(playerid,PlayerInfo[playerid][p_Weapons][i], PlayerInfo[playerid][p_Ammo][i]);
-    GivePlayerWeapon(playerid,PlayerInfo[playerid][p_Weapons], PlayerInfo[playerid][p_Ammo]);
 }
 
 // Default Callbacks
